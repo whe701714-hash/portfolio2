@@ -97,10 +97,11 @@ const props = [...document.querySelectorAll('[data-object]')];
 function setNote(active) {
   props.forEach(element=>element.setAttribute('aria-expanded',element===active));
   note.hidden = !active;
-  note.textContent = active?.dataset.object === 'ticket' ? '工作室记录 · 材料与原型观察' : '工作室歌单 · 链接待替换';
+  note.textContent = active?.dataset.object === 'ticket' ? '工作室记录 · 用户研究与界面原型' : '工作室歌单 · 链接待替换';
 }
 props.forEach(element=>element.addEventListener('click',()=>setNote(element.getAttribute('aria-expanded')==='true'?null:element)));
 document.addEventListener('keydown',event=>{if(event.key==='Escape' && !viewer.open && !note.hidden) setNote(null);});
 document.addEventListener('click',event=>{if(!note.hidden&&!event.target.closest('[data-object],.desk-note')) setNote(null);});
 renderWork();
 markNavigation();
+
