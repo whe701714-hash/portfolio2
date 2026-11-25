@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="工业设计个人作品、设计过程及创意实验。">
+<title>设计手记 · 工业设计作品集</title>
+<link rel="stylesheet" href="style.css">
+<script type="module" src="app.js"></script>
+</head>
+<body id="top">
+<header class="bar wrap">
+<a class="brand" href="#top">设计手记<span>®</span></a>
+<nav aria-label="栏目"><a href="#about">About</a><a href="#work">Work</a><a href="#playground">Playground</a></nav>
+</header>
+<main>
+<section class="hero wrap" aria-labelledby="title">
+<div class="section-label">INDUSTRIAL DESIGN PORTFOLIO</div>
+<div class="desk">
+<article class="identity prop"><span>DESIGNER PASS</span><h1 id="title">工业设计<br>作品集</h1><p>工业设计师 · 姓名待替换</p><div class="portrait art" data-art="0" role="img" aria-label="示例设计师肖像"></div></article>
+<button class="ticket prop" type="button" data-object="ticket" aria-expanded="false"><span>材料 · 工艺 · 使用</span><strong>FIELD NOTES</strong><span>工作室记录 / STUDIO PASS</span><i aria-hidden="true"></i></button>
+<button class="record prop" type="button" data-object="record" aria-expanded="false"><span class="disc"></span><span>工作室歌单</span></button>
+<div class="signature prop" aria-label="签名占位">Design Notes<small>从观察到实物</small></div>
+<button type="button" class="folder prop" aria-label="打开精选作品"><span class="folder-icon"></span><span>Projects</span></button>
+<div class="pixel prop" aria-hidden="true"></div>
+<div class="terminal prop"><div>studio — notes</div><p><b>></b> whoami<br>工业设计师 / Industrial Designer</p><p><b>></b> interests<br>材料 · 原型 · 制造</p></div>
+<output class="desk-note" aria-live="polite" hidden></output>
+</div>
+</section>
+<section class="about wrap" id="about" aria-labelledby="about-title">
+<header class="section-head"><span>ABOUT</span><h2 id="about-title">关于我</h2></header>
+<div class="about-paper"><div class="memo"><h3>我喜欢在工作台上解决问题。</h3><p>从日常使用里的小摩擦开始，画下来、做出来，再用真实的材料和尺度检验想法。</p><small>个人介绍示例 · 待替换</small></div><div class="statement"><p>我关注产品如何被<span>握住、使用和维护</span>，也在意它背后的材料选择与制造过程。</p><p class="skills">用户观察 / 概念草图 / CAD 建模 / 原型验证</p><p class="interests">工作台之外，我记录街道、拾集材料样本，也做一些小型的结构实验。</p></div></div>
+</section>
+<section class="work wrap" id="work" aria-labelledby="work-title">
+<header class="section-head"><span>WORK</span><h2 id="work-title">精选作品</h2></header>
+<div class="window">
+<div class="titlebar"><div class="lights" aria-hidden="true"><i></i><i></i><i></i></div><span id="path">~/studio/projects</span></div>
+<div class="window-body"><div class="folders" aria-label="作品文件夹"></div><div class="window-content"><div class="categories" aria-label="项目分类"></div><div id="work-content"></div></div></div>
+</div>
+</section>
+<section class="play wrap" id="playground" aria-labelledby="play-title">
+<header class="section-head"><span>PLAYGROUND</span><h2 id="play-title">创意实验</h2></header>
+<div class="pinboard" aria-label="实验图片拼贴"></div>
+</section>
+</main>
+<footer class="wrap footer"><span>设计手记 · 工业设计作品集</span><a href="#top">返回顶部</a></footer>
+<dialog id="viewer" aria-labelledby="viewer-title"><div class="viewer-bar"><button type="button" class="close">返回</button><span>设计手记 / 工作台</span></div><div id="viewer-content"></div></dialog>
+</body>
+</html>
