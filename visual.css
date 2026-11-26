@@ -99,31 +99,45 @@ html.intro-pending .signature,body.is-intro .signature{translate:0 10px;rotate:3
 .about.in-view .statement span{background-size:100% 100%}
 
 /* Zi Yue personal brand opening. The overlay uses the same page background. */
-.brand-intro{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;overflow:hidden;background:var(--paper);color:var(--ink);opacity:0;visibility:hidden;pointer-events:none;transition:opacity var(--intro-exit-duration,380ms) var(--ease),background-color var(--intro-exit-duration,380ms) var(--ease),visibility 0s linear var(--intro-exit-duration,380ms)}
+.brand-intro{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;overflow:hidden;overscroll-behavior:contain;scrollbar-width:none;background:var(--paper);color:var(--ink);opacity:0;visibility:hidden;pointer-events:none;transition:opacity var(--intro-exit-duration,260ms) var(--ease),visibility 0s linear var(--intro-exit-duration,260ms)}
+.brand-intro::-webkit-scrollbar{display:none}html.brand-intro-pending,body.brand-intro-active{overflow:hidden;scrollbar-width:none}body.brand-intro-active::-webkit-scrollbar{display:none}
 html.brand-intro-pending .brand-intro,body.brand-intro-active .brand-intro{opacity:1;visibility:visible;pointer-events:auto;transition:none}
-.brand-intro__content{display:flex;flex-direction:column;align-items:center;gap:19px;transform-origin:center;transition:transform var(--intro-exit-duration,380ms) var(--ease),opacity var(--intro-exit-duration,380ms) var(--ease)}
-.brand-intro__avatar-motion{width:clamp(112px,17vw,148px);aspect-ratio:1;opacity:0;transform:translateY(40px) scale(.4) rotate(-8deg);filter:drop-shadow(0 8px 18px #34487515)}
+.brand-intro__content{position:relative;display:flex;flex-direction:column;align-items:center;gap:19px;transform-origin:center;transition:transform var(--intro-exit-duration,260ms) var(--ease),opacity var(--intro-exit-duration,260ms) var(--ease)}
+.brand-intro__avatar-motion{position:relative;z-index:2;width:clamp(112px,17vw,148px);aspect-ratio:1;opacity:0;transform:translateY(-18px) scale(.38) rotate(-9deg);filter:drop-shadow(0 8px 18px #34487515)}
 .brand-intro__avatar-float{width:100%;height:100%;animation:brand-avatar-float 4.8s ease-in-out 680ms infinite}
 .brand-intro__avatar{display:block;width:100%;height:100%;object-fit:cover;border-radius:50%}
 .brand-intro__name{display:flex;align-items:baseline;margin:4px 0 0;color:#4055a1;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-size:clamp(48px,8vw,82px);font-weight:760;line-height:1.02;letter-spacing:-.065em}
-.brand-intro__letter{display:inline-block;opacity:0;transform:translateY(45px) scale(.65) rotate(12deg);transform-origin:50% 90%;will-change:transform,opacity}
+.brand-intro__letter{display:inline-block;opacity:0;transform:translateY(-110px) scale(.72) rotate(11deg);transform-origin:50% 0%;will-change:transform,opacity}
 .brand-intro__space{display:inline-block;width:.28em}
-.brand-intro__role{margin:0;color:#60708f;font:600 12px/1.4 var(--mono);letter-spacing:.24em;opacity:0;transform:translateY(12px)}
+.brand-intro__role{position:relative;z-index:2;margin:0;color:#60708f;font:600 12px/1.4 var(--mono);letter-spacing:.24em;opacity:0;transform:translateY(-10px)}
 .brand-intro__skip{position:absolute;right:clamp(20px,4vw,52px);bottom:clamp(20px,4vh,36px);border:0;background:transparent;color:#737f95;padding:9px 4px;font:11px var(--mono);letter-spacing:.12em;opacity:.72;transition:opacity 180ms var(--ease)}
 .brand-intro__skip:hover,.brand-intro__skip:focus-visible{opacity:1}
-body.brand-intro-play .brand-intro__avatar-motion{animation:brand-avatar-in var(--intro-avatar-duration,600ms) cubic-bezier(.2,.9,.28,1.12) var(--intro-avatar-delay,80ms) both}
-body.brand-intro-play .brand-intro__letter{animation:brand-letter-in var(--intro-letter-duration,440ms) cubic-bezier(.18,.86,.25,1.18) both}
-body.brand-intro-play .brand-intro__role{animation:brand-role-in var(--intro-subtitle-duration,330ms) var(--ease) var(--intro-subtitle-delay,1370ms) both}
-@keyframes brand-avatar-in{0%{opacity:0;transform:translateY(40px) scale(.4) rotate(-8deg)}68%{opacity:1;transform:translateY(-4px) scale(1.06) rotate(2deg)}86%{opacity:1;transform:translateY(1px) scale(.985) rotate(-.7deg)}100%{opacity:1;transform:translateY(0) scale(1) rotate(0)}}
+body.brand-intro-play .brand-intro__avatar-motion{animation:brand-avatar-in var(--intro-avatar-duration,800ms) cubic-bezier(.18,.88,.24,1.16) var(--intro-avatar-delay,0ms) both}
+body.brand-intro-play .brand-intro__letter{animation:brand-letter-in var(--intro-letter-duration,760ms) cubic-bezier(.18,.86,.25,1.12) both}
+body.brand-intro-play .brand-intro__role{animation:brand-role-in var(--intro-subtitle-duration,440ms) var(--ease) var(--intro-subtitle-delay,200ms) both}
+@keyframes brand-avatar-in{0%{opacity:0;transform:translateY(-18px) scale(.38) rotate(-9deg)}67%{opacity:1;transform:translateY(4px) scale(1.07) rotate(2deg)}84%{opacity:1;transform:translateY(-2px) scale(.985) rotate(-.7deg)}100%{opacity:1;transform:translateY(0) scale(1) rotate(0)}}
 @keyframes brand-avatar-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
-@keyframes brand-letter-in{0%{opacity:0;transform:translateY(45px) scale(.65) rotate(12deg);color:#f0a7c1}68%{opacity:1;transform:translateY(-4px) scale(1.06) rotate(-2deg);color:#5269b5}86%{opacity:1;transform:translateY(1px) scale(.99) rotate(.5deg);color:#4055a1}100%{opacity:1;transform:translateY(0) scale(1) rotate(0);color:#4055a1}}
-@keyframes brand-role-in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes brand-letter-in{0%{opacity:0;transform:translateY(-110px) scale(.72) rotate(11deg);color:#ef9bb6}65%{opacity:1;transform:translateY(5px) scale(1.08) rotate(-2deg);color:#657bc5}84%{opacity:1;transform:translateY(-2px) scale(.985) rotate(.5deg);color:#4055a1}100%{opacity:1;transform:translateY(0) scale(1) rotate(0);color:#4055a1}}
+@keyframes brand-role-in{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+.brand-intro__decor{position:absolute;inset:-112px -210px;pointer-events:none;z-index:1}
+.brand-intro__decor>span{position:absolute;opacity:0;will-change:transform,opacity}
+.intro-chip{display:grid;place-items:center;width:72px;height:58px;border-radius:12px;font:10px var(--mono);color:#53617b;box-shadow:0 8px 20px #34487512}
+.chip-a{left:12%;top:7%;background:var(--sky)}.chip-b{right:9%;top:19%;background:var(--lemon)}.chip-c{left:18%;bottom:7%;background:var(--mint)}
+.intro-pointer{right:9%;bottom:16%;font:52px/1 system-ui;color:#e99bb7;rotate:-14deg}
+.intro-star{left:0;top:47%;font-size:42px;color:#e7bd52}.intro-type{right:0;top:44%;padding:12px 16px;border-radius:14px;background:#e5e3fb;color:#606ba8;font:800 26px/1 system-ui;rotate:8deg}
+.intro-ui{left:7%;top:25%;display:grid;grid-template-columns:repeat(3,13px);gap:7px;padding:13px;border-radius:12px;background:#e5edff;rotate:-7deg}.intro-ui i{width:13px;height:13px;border-radius:4px;background:#83a8e1}.intro-ui i:nth-child(2){background:#f2bd6b}.intro-ui i:nth-child(3){background:#9acdaf}
+.intro-shape{right:14%;bottom:4%;width:43px;height:43px;border-radius:12px;background:#f3b2c7;rotate:18deg}.intro-spark{right:23%;top:3%;font-size:28px;color:#79a8d7}
+body.brand-intro-play .brand-intro__decor>span{animation:decor-drop 720ms cubic-bezier(.16,.82,.23,1.08) both}
+body.brand-intro-play .intro-chip{animation-delay:var(--drop-delay,24ms)}
+body.brand-intro-play .chip-a{--drop-delay:22ms}body.brand-intro-play .chip-b{--drop-delay:48ms}body.brand-intro-play .chip-c{--drop-delay:72ms}
+body.brand-intro-play .intro-pointer{animation-delay:32ms}body.brand-intro-play .intro-star{animation-delay:55ms}body.brand-intro-play .intro-type{animation-delay:70ms}body.brand-intro-play .intro-ui{animation-delay:42ms}body.brand-intro-play .intro-shape{animation-delay:88ms}body.brand-intro-play .intro-spark{animation-delay:18ms}
+@keyframes decor-drop{0%{opacity:0;translate:var(--drift,-12px) -110px;rotate:var(--spin,-12deg) scale(.75)}67%{opacity:1;translate:0 5px;rotate:0deg scale(1.08)}84%{opacity:1;translate:0 -2px;rotate:0deg scale(.98)}100%{opacity:1;translate:0 0;rotate:0deg scale(1)}}
 body.brand-intro-exiting .brand-intro{background-color:transparent;opacity:0;pointer-events:none;transition:background-color var(--intro-exit-duration,380ms) var(--ease),opacity var(--intro-exit-duration,380ms) var(--ease),visibility 0s linear var(--intro-exit-duration,380ms)}
-body.brand-intro-exiting .brand-intro__content{opacity:0;transform:translateY(-18px) scale(.94)}
+body.brand-intro-exiting .brand-intro__content{opacity:0;transform:translateY(-12px) scale(.96)}
 body.brand-intro-exiting .brand-intro__skip{opacity:0;pointer-events:none}
 body.brand-intro-hidden .brand-intro{visibility:hidden}
 body.is-intro .bar,body.is-intro .section-label{transition-delay:0ms}
-.intro-ready .bar{transition-delay:var(--intro-nav,600ms)}
+.intro-ready .bar{transition-delay:var(--intro-nav,0ms)}
 .intro-ready .section-label{transition-delay:var(--intro-section-label,0ms)}
 .intro-ready .prop{transition-duration:var(--intro-duration,430ms)}
 .intro-ready .identity{transition-delay:var(--intro-identity,0ms)}
@@ -133,5 +147,5 @@ body.is-intro .bar,body.is-intro .section-label{transition-delay:0ms}
 .intro-ready .pixel{transition-delay:var(--intro-pixel,250ms)}
 .intro-ready .terminal{transition-delay:var(--intro-terminal,300ms)}
 .intro-ready .signature{transition:clip-path var(--intro-signature-duration,320ms) var(--intro-signature,320ms) var(--ease),opacity var(--intro-signature-duration,320ms) var(--intro-signature,320ms) var(--ease),translate var(--intro-signature-duration,320ms) var(--intro-signature,320ms) var(--ease),rotate var(--intro-signature-duration,320ms) var(--intro-signature,320ms) var(--ease);clip-path:inset(0);opacity:1;translate:0 0;rotate:0deg}
-@media(max-width:640px){.brand-intro__content{gap:16px}.brand-intro__avatar-motion{width:clamp(104px,31vw,128px)}.brand-intro__name{font-size:clamp(48px,13vw,64px)}.brand-intro__role{font-size:10px;letter-spacing:.19em}}
-@media(prefers-reduced-motion:reduce){.brand-intro__avatar-float{animation:none}.brand-intro__avatar-motion,.brand-intro__letter,.brand-intro__role{animation:none!important;opacity:1;transform:none}.brand-intro-exiting .brand-intro__content{transform:none}.intro-ready .bar,.intro-ready .prop,.intro-ready .signature{transition:none!important}}
+@media(max-width:640px){.brand-intro__content{gap:14px}.brand-intro__avatar-motion{width:clamp(104px,31vw,128px)}.brand-intro__name{font-size:clamp(48px,13vw,64px)}.brand-intro__role{font-size:10px;letter-spacing:.19em}.brand-intro__decor{inset:-72px -84px}.brand-intro__decor .intro-ui,.brand-intro__decor .chip-c,.brand-intro__decor .intro-spark{display:none}.intro-chip{width:55px;height:45px;font-size:8px}.intro-pointer{font-size:38px}.intro-type{font-size:20px!important}}
+@media(prefers-reduced-motion:reduce){.brand-intro__avatar-float{animation:none}.brand-intro__avatar-motion,.brand-intro__letter,.brand-intro__role{animation:none!important;opacity:1;transform:none}.brand-intro__decor>span{animation:none!important;opacity:1;transform:none;translate:0 0}.brand-intro-exiting .brand-intro__content{transform:none}.intro-ready .bar,.intro-ready .prop,.intro-ready .signature{transition:none!important}}

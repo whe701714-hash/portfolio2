@@ -11,7 +11,7 @@ const viewer = select('#viewer');
 const note = select('.desk-note');
 const desk = select('.desk');
 const pinboard = select('.pinboard');
-const introTiming = {avatarDelay: 80, avatarDuration: 600, lettersDelay: 600, letterDuration: 440, letterStagger: 90, subtitleDelay: 1370, subtitleDuration: 330, homeStart: 2200, exitDuration: 380, duration: 430, nav: 600, navDuration: 330, sectionLabel: 0, identity: 0, ticket: 75, record: 135, folder: 195, pixel: 250, terminal: 300, signature: 320, signatureDuration: 320, homeCleanup: 1100, total: 3150};
+const introTiming = {avatarDelay: 0, avatarDuration: 800, lettersDelay: 0, letterDuration: 760, letterStagger: 28, subtitleDelay: 200, subtitleDuration: 440, homeStart: 1050, exitDuration: 260, duration: 430, nav: 0, navDuration: 330, sectionLabel: 0, identity: 0, ticket: 25, record: 42, folder: 58, pixel: 74, terminal: 90, signature: 62, signatureDuration: 320, homeCleanup: 1100, total: 1310};
 let introTimers = [];
 let homeIntroStarted = false;
 let folder = folders[0].id;
@@ -105,6 +105,7 @@ function animateIntro() {
   }, introTiming.homeStart));
   introTimers.push(setTimeout(() => {
     document.documentElement.classList.remove('brand-intro-pending');
+    document.body.classList.remove('brand-intro-active', 'brand-intro-play', 'brand-intro-exiting');
     select('.brand-intro').setAttribute('aria-hidden', 'true');
     document.body.classList.add('brand-intro-hidden');
     sessionStorage.setItem('zi-yue-brand-intro', '1');
