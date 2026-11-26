@@ -154,3 +154,19 @@ body.is-intro .bar,body.is-intro .section-label{transition-delay:0ms}
 .intro-ready .signature{transition:clip-path var(--intro-signature-duration,320ms) var(--intro-signature,320ms) var(--ease),opacity var(--intro-signature-duration,320ms) var(--intro-signature,320ms) var(--ease),translate var(--intro-signature-duration,320ms) var(--intro-signature,320ms) var(--ease),rotate var(--intro-signature-duration,320ms) var(--intro-signature,320ms) var(--ease);clip-path:inset(0);opacity:1;translate:0 0;rotate:0deg}
 @media(max-width:640px){.brand-intro__content{gap:14px}.brand-intro__avatar-motion{width:clamp(104px,31vw,128px)}.brand-intro__name{font-size:clamp(48px,13vw,64px)}.brand-intro__role{font-size:10px;letter-spacing:.19em}.brand-intro__decor .intro-ui,.brand-intro__decor .chip-c,.brand-intro__decor .intro-spark,.brand-intro__decor .intro-pen{display:none}.intro-chip{width:55px;height:45px;font-size:8px}.intro-pointer{font-size:38px}.intro-type{font-size:20px!important}.intro-toggle{scale:.8}}
 @media(prefers-reduced-motion:reduce){.brand-intro__avatar-float{animation:none}.brand-intro__avatar-motion,.brand-intro__letter,.brand-intro__role{animation:none!important;opacity:1;transform:none}.brand-intro__decor>span{animation:none!important;opacity:1;transform:none;translate:0 0}.brand-intro-exiting .brand-intro__content{transform:none}.intro-ready .bar,.intro-ready .prop,.intro-ready .signature{transition:none!important}}
+
+/* The home remains mounted under an independent, fading intro overlay. */
+.brand-intro{transform:scale(1);transform-origin:center;transition:opacity var(--intro-transition,700ms) cubic-bezier(.22,.7,.25,1),transform var(--intro-transition,700ms) cubic-bezier(.22,.7,.25,1),visibility 0s linear var(--intro-transition,700ms)}
+body.brand-intro-exiting .brand-intro{opacity:0;transform:scale(1.03);background-color:var(--paper);transition:opacity var(--intro-transition,700ms) cubic-bezier(.22,.7,.25,1),transform var(--intro-transition,700ms) cubic-bezier(.22,.7,.25,1),visibility 0s linear var(--intro-transition,700ms)}
+body.brand-intro-exiting .brand-intro__content{opacity:1;transform:none;transition:none}
+body.brand-intro-exiting .brand-intro__decor>span{translate:0 0;scale:1;opacity:1;transition:none}
+.intro-ready .prop{transition-duration:var(--intro-home-duration,700ms)}
+.intro-ready .identity{transition-delay:var(--intro-identity,0ms)}
+.intro-ready .ticket{transition-delay:var(--intro-ticket,70ms)}
+.intro-ready .record{transition-delay:var(--intro-record,120ms)}
+.intro-ready .folder{transition-delay:var(--intro-folder,170ms)}
+.intro-ready .pixel{transition-delay:var(--intro-pixel,210ms)}
+.intro-ready .terminal{transition-delay:var(--intro-terminal,250ms)}
+.intro-ready .signature{transition:clip-path var(--intro-home-duration,700ms) var(--intro-signature,220ms) var(--ease),opacity var(--intro-home-duration,700ms) var(--intro-signature,220ms) var(--ease),translate var(--intro-home-duration,700ms) var(--intro-signature,220ms) var(--ease),rotate var(--intro-home-duration,700ms) var(--intro-signature,220ms) var(--ease);clip-path:inset(0);opacity:1;translate:0 0;rotate:0deg}
+body.brand-intro-hidden .brand-intro{visibility:hidden;pointer-events:none}
+@media(prefers-reduced-motion:reduce){.brand-intro,body.brand-intro-exiting .brand-intro{transform:none;transition:none!important}.intro-ready .prop{transition:none!important}}

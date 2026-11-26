@@ -11,9 +11,10 @@ const viewer = select('#viewer');
 const note = select('.desk-note');
 const desk = select('.desk');
 const pinboard = select('.pinboard');
-const introTiming = {avatarDelay: 0, avatarDuration: 1300, lettersDelay: 80, letterDuration: 800, letterStagger: 165, subtitleDelay: 900, subtitleDuration: 450, hold: 700, transition: 1000, settle: 500, total: 3800};
+const introTiming = {avatarDelay: 0, avatarDuration: 1300, lettersDelay: 80, letterDuration: 800, letterStagger: 165, subtitleDelay: 900, subtitleDuration: 450, hold: 600, transitionStart: 2100, transition: 700, settle: 600, homeDuration: 700, identity: 0, ticket: 70, record: 120, folder: 170, pixel: 210, terminal: 250, signature: 220, nav: 220, sectionLabel: 300, total: 3400, failSafe: 4200};
 let introTimers = [];
 let homeIntroStarted = false;
+let introCompleted = false;
 let folder = folders[0].id;
 let category = projects[0].category;
 let returnFocus;
@@ -68,20 +69,21 @@ function startHomeIntro() {
   document.documentElement.classList.remove('brand-intro-pending', 'intro-pending');
   document.body.classList.add('is-intro', 'intro-ready');
   window.dispatchEvent(new Event('brandintroend'));
-  introTimers.push(setTimeout(() => document.body.classList.remove('is-intro'), 900));
+  introTimers.push(setTimeout(() => document.body.classList.remove('is-intro'), introTiming.homeDuration + 250));
 }
 
 function finishBrandIntro() {
-  if (!document.documentElement.classList.contains('brand-intro-pending')) return;
+  if (document.body.classList.contains('brand-intro-hidden')) return;
   introTimers.forEach(clearTimeout);
   introTimers = [];
   sessionStorage.setItem('zi-yue-brand-intro', '1');
   startHomeIntro();
   document.body.classList.add('brand-intro-exiting');
-  introTimers.push(setTimeout(() => {
-    select('.brand-intro').setAttribute('aria-hidden', 'true');
-    document.body.classList.add('brand-intro-hidden');
-  }, introTiming.exitDuration));
+  const overlay = select('.brand-intro');
+  overlay.setAttribute('aria-hidden', 'true');
+  document.body.classList.add('brand-intro-hidden');
+  document.body.classList.remove('brand-intro-active', 'brand-intro-play', 'brand-intro-exiting');
+  document.documentElement.classList.remove('brand-intro-pending', 'intro-pending');
 }
 
 function animateIntro() {
@@ -101,14 +103,25 @@ function animateIntro() {
     document.body.classList.add('brand-intro-play');
     document.body.classList.add('is-intro');
   });
-  introTimers.push(setTimeout(() => document.body.classList.add('brand-intro-exiting', 'intro-ready'), 2300));
   introTimers.push(setTimeout(() => {
+    document.body.classList.add('brand-intro-exiting');
+    startHomeIntro();
+  }, introTiming.transitionStart));
+  const completeIntro = () => {
+    if (introCompleted) return;
+    introCompleted = true;
+    introTimers.forEach(clearTimeout);
+    introTimers = [];
     document.documentElement.classList.remove('brand-intro-pending');
-    document.body.classList.remove('brand-intro-active', 'brand-intro-play', 'brand-intro-exiting');
-    select('.brand-intro').setAttribute('aria-hidden', 'true');
+    document.documentElement.classList.remove('intro-pending');
+    document.body.classList.remove('brand-intro-active', 'brand-intro-play', 'brand-intro-exiting', 'is-intro');
+    const overlay = select('.brand-intro');
+    overlay.setAttribute('aria-hidden', 'true');
     document.body.classList.add('brand-intro-hidden');
     sessionStorage.setItem('zi-yue-brand-intro', '1');
-  }, introTiming.total));
+  };
+  introTimers.push(setTimeout(completeIntro, introTiming.total));
+  introTimers.push(setTimeout(completeIntro, introTiming.failSafe));
 }
 
 function revealSections() {
