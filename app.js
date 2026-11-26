@@ -11,7 +11,7 @@ const viewer = select('#viewer');
 const note = select('.desk-note');
 const desk = select('.desk');
 const pinboard = select('.pinboard');
-const introTiming = {avatarDelay: 0, avatarDuration: 800, lettersDelay: 0, letterDuration: 760, letterStagger: 28, subtitleDelay: 200, subtitleDuration: 440, homeStart: 1050, exitDuration: 260, duration: 430, nav: 0, navDuration: 330, sectionLabel: 0, identity: 0, ticket: 25, record: 42, folder: 58, pixel: 74, terminal: 90, signature: 62, signatureDuration: 320, homeCleanup: 1100, total: 1310};
+const introTiming = {avatarDelay: 0, avatarDuration: 1300, lettersDelay: 80, letterDuration: 800, letterStagger: 165, subtitleDelay: 900, subtitleDuration: 450, hold: 700, transition: 1000, settle: 500, total: 3800};
 let introTimers = [];
 let homeIntroStarted = false;
 let folder = folders[0].id;
@@ -66,10 +66,9 @@ function startHomeIntro() {
   if (homeIntroStarted) return;
   homeIntroStarted = true;
   document.documentElement.classList.remove('brand-intro-pending', 'intro-pending');
-  document.body.classList.add('is-intro');
-  requestAnimationFrame(() => document.body.classList.add('intro-ready'));
+  document.body.classList.add('is-intro', 'intro-ready');
   window.dispatchEvent(new Event('brandintroend'));
-  introTimers.push(setTimeout(() => document.body.classList.remove('is-intro'), introTiming.homeCleanup));
+  introTimers.push(setTimeout(() => document.body.classList.remove('is-intro'), 900));
 }
 
 function finishBrandIntro() {
@@ -98,11 +97,11 @@ function animateIntro() {
   }
   select('.brand-intro').setAttribute('aria-hidden', 'false');
   document.body.classList.add('brand-intro-active');
-  requestAnimationFrame(() => document.body.classList.add('brand-intro-play'));
-  introTimers.push(setTimeout(() => {
-    startHomeIntro();
-    document.body.classList.add('brand-intro-exiting');
-  }, introTiming.homeStart));
+  requestAnimationFrame(() => {
+    document.body.classList.add('brand-intro-play');
+    document.body.classList.add('is-intro');
+  });
+  introTimers.push(setTimeout(() => document.body.classList.add('brand-intro-exiting', 'intro-ready'), 2300));
   introTimers.push(setTimeout(() => {
     document.documentElement.classList.remove('brand-intro-pending');
     document.body.classList.remove('brand-intro-active', 'brand-intro-play', 'brand-intro-exiting');
