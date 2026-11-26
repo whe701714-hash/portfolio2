@@ -1,4 +1,5 @@
 import {folders,projects,experiments,asset} from './content.js';
+import {profile} from './profile.js';
 
 const select = selector => document.querySelector(selector);
 const selectAll = selector => [...document.querySelectorAll(selector)];
@@ -10,7 +11,9 @@ const viewer = select('#viewer');
 const note = select('.desk-note');
 const desk = select('.desk');
 const pinboard = select('.pinboard');
-const introTiming = {duration: 620, nav: 0, identity: 120, ticket: 210, record: 310, folder: 400, pixel: 500, terminal: 610, signature: 760, total: 1700};
+const introTiming = {avatarDelay: 80, avatarDuration: 600, lettersDelay: 600, letterDuration: 440, letterStagger: 90, subtitleDelay: 1370, subtitleDuration: 330, homeStart: 2200, exitDuration: 380, duration: 430, nav: 600, navDuration: 330, sectionLabel: 0, identity: 0, ticket: 75, record: 135, folder: 195, pixel: 250, terminal: 300, signature: 320, signatureDuration: 320, homeCleanup: 1100, total: 3150};
+let introTimers = [];
+let homeIntroStarted = false;
 let folder = folders[0].id;
 let category = projects[0].category;
 let returnFocus;
@@ -26,24 +29,86 @@ function makeButton(text, handler) {
   return element;
 }
 
+function setIntroVariables() {
+  Object.entries(introTiming).forEach(([name, value]) => {
+    const cssName = name.replace(/[A-Z]/g, letter => '-' + letter.toLowerCase());
+    document.documentElement.style.setProperty('--intro-' + cssName, `${value}ms`);
+  });
+}
+
+function renderProfile() {
+  const name = profile.name || 'Name pending';
+  const role = profile.role || 'Interaction Designer';
+  const nameNode = select('.brand-intro__name');
+  nameNode.replaceChildren();
+  [...name].forEach((character, index) => {
+    const letter = document.createElement('span');
+    letter.className = character === ' ' ? 'brand-intro__space' : 'brand-intro__letter';
+    letter.setAttribute('aria-hidden', 'true');
+    letter.textContent = character === ' ' ? '\u00a0' : character;
+    if (character !== ' ') letter.style.animationDelay = `${introTiming.lettersDelay + index * introTiming.letterStagger}ms`;
+    nameNode.append(letter);
+  });
+  nameNode.setAttribute('aria-label', name);
+  select('.brand-intro__role').textContent = role.toUpperCase();
+  select('.identity-personal').textContent = `${name} · ${role}`;
+  select('.identity-name').textContent = name;
+  select('.identity-role').textContent = `${role} · UI/UX · 数字体验`;
+  select('.profile-bio').textContent = profile.bio || '个人介绍暂缺，后续更新。';
+  selectAll('[data-profile-avatar]').forEach(image => {
+    image.src = profile.avatar;
+    image.alt = `${name} 头像占位`;
+  });
+  document.title = `${name} · Interaction Design Portfolio`;
+}
+
+function startHomeIntro() {
+  if (homeIntroStarted) return;
+  homeIntroStarted = true;
+  document.documentElement.classList.remove('brand-intro-pending', 'intro-pending');
+  document.body.classList.add('is-intro');
+  requestAnimationFrame(() => document.body.classList.add('intro-ready'));
+  window.dispatchEvent(new Event('brandintroend'));
+  introTimers.push(setTimeout(() => document.body.classList.remove('is-intro'), introTiming.homeCleanup));
+}
+
+function finishBrandIntro() {
+  if (!document.documentElement.classList.contains('brand-intro-pending')) return;
+  introTimers.forEach(clearTimeout);
+  introTimers = [];
+  sessionStorage.setItem('zi-yue-brand-intro', '1');
+  startHomeIntro();
+  document.body.classList.add('brand-intro-exiting');
+  introTimers.push(setTimeout(() => {
+    select('.brand-intro').setAttribute('aria-hidden', 'true');
+    document.body.classList.add('brand-intro-hidden');
+  }, introTiming.exitDuration));
+}
+
 function animateIntro() {
   const isRoot = !location.hash || location.hash === '#top';
-  const shouldAnimate = isRoot && !sessionStorage.getItem('design-notes-intro') && !reducedMotion;
+  const shouldAnimate = isRoot && !sessionStorage.getItem('zi-yue-brand-intro') && !reducedMotion;
+  setIntroVariables();
+  select('.brand-intro__skip').addEventListener('click', finishBrandIntro);
   if (!shouldAnimate) {
-    document.documentElement.classList.remove('intro-pending');
+    document.documentElement.classList.remove('brand-intro-pending', 'intro-pending');
+    select('.brand-intro').setAttribute('aria-hidden', 'true');
     document.body.classList.add('intro-ready');
     return;
   }
-  Object.entries(introTiming).forEach(([name, value]) => document.documentElement.style.setProperty('--intro-' + name, `${value}ms`));
-  document.body.classList.add('is-intro');
-  requestAnimationFrame(() => requestAnimationFrame(() => {
-    document.documentElement.classList.remove('intro-pending');
-    document.body.classList.add('intro-ready');
-  }));
-  setTimeout(() => {
-    document.body.classList.remove('is-intro');
-    sessionStorage.setItem('design-notes-intro', '1');
-  }, introTiming.total);
+  select('.brand-intro').setAttribute('aria-hidden', 'false');
+  document.body.classList.add('brand-intro-active');
+  requestAnimationFrame(() => document.body.classList.add('brand-intro-play'));
+  introTimers.push(setTimeout(() => {
+    startHomeIntro();
+    document.body.classList.add('brand-intro-exiting');
+  }, introTiming.homeStart));
+  introTimers.push(setTimeout(() => {
+    document.documentElement.classList.remove('brand-intro-pending');
+    select('.brand-intro').setAttribute('aria-hidden', 'true');
+    document.body.classList.add('brand-intro-hidden');
+    sessionStorage.setItem('zi-yue-brand-intro', '1');
+  }, introTiming.total));
 }
 
 function revealSections() {
@@ -227,8 +292,9 @@ function initTerminal() {
   const start = () => {
     if (started) return;
     started = true;
-    const outputIntro = () => typeTerminal('whoami\n交互设计师 / Interaction Designer\n\ninterests\nUI/UX · 数字体验 · 原型');
-    if (document.body.classList.contains('is-intro')) setTimeout(outputIntro, introTiming.terminal + 600);
+    const outputIntro = () => typeTerminal(`whoami\n${profile.role} / ${profile.name}\n\ninterests\nUI/UX · 数字体验 · 原型`, 12);
+    if (document.body.classList.contains('brand-intro-active')) window.addEventListener('brandintroend', outputIntro, {once: true});
+    else if (document.body.classList.contains('is-intro')) setTimeout(outputIntro, introTiming.terminal + 300);
     else outputIntro();
   };
   new IntersectionObserver(entries => entries.forEach(entry => entry.isIntersecting && start()), {threshold: .5}).observe(terminal);
@@ -271,7 +337,7 @@ const categoryButtons = [...new Set(projects.map(project => project.category))].
 });
 
 function projectMarkup(project, index) {
-  return `<article class="project panel" style="--item-delay:${index * 70}ms"><button class="project-image" aria-label="查看 ${project.name}"><img src="${asset(project.cover)}" alt="${project.name} 示例图片"></button><div><small>概念项目 · 示例 · ${project.year}</small><h3>${project.name}</h3><p>${project.summary}</p><p class="project-tools">${project.tools.join(' / ')}</p><button class="detail">查看详情</button></div></article>`;
+  return `<article class="project panel" style="--item-delay:${index * 70}ms"><button class="project-image" aria-label="查看 ${project.name}"><img src="${asset(project.cover)}" alt="${project.name} 示例图片"></button><div><small>${project.placeholder ? '占位项目 · ' : ''}${project.year}</small><h3>${project.name}</h3><p>${project.summary}</p><p class="project-tools">${project.tools.join(' / ')}</p><button class="detail">查看详情</button></div></article>`;
 }
 
 function renderWork() {
@@ -304,7 +370,7 @@ function openViewer(content, items = [], index = 0) {
 }
 
 function openProject(project) {
-  openViewer(`<h2 id="viewer-title">${project.name}</h2><p>${project.summary}</p><p class="project-tools">${project.year} · ${project.tools.join(' / ')}</p><img src="${asset(project.cover)}" alt="项目封面"><p>项目过程为占位示例，支持后续替换为完整研究和设计素材。</p>${project.stages.map(stage => `<figure><img loading="lazy" src="${asset(stage.image)}" alt="${stage.name}示例"><figcaption><strong>${stage.name}</strong> · ${stage.summary}</figcaption></figure>`).join('')}`);
+  openViewer(`<h2 id="viewer-title">${project.name}</h2><p>${project.summary}</p><p class="project-tools">${project.year} · ${project.tools.join(' / ')}</p><img src="${asset(project.cover)}" alt="项目封面"><p>${project.placeholder ? '占位项目 · 项目信息与设计过程待替换。' : '项目过程待补充。'}</p>${project.stages.map(stage => `<figure><img loading="lazy" src="${asset(stage.image)}" alt="${stage.name}示例"><figcaption><strong>${stage.name}</strong> · ${stage.summary}</figcaption></figure>`).join('')}${project.link ? `<p><a href="${project.link}" target="_blank" rel="noreferrer">查看项目链接</a></p>` : ''}`);
 }
 
 function openExperiment(index) {
@@ -356,6 +422,7 @@ selectAll('.bar nav a, .brand, .footer a').forEach(link => link.addEventListener
   scrollToSection(target);
 }));
 
+renderProfile();
 animateIntro();
 renderWork();
 alignInitialAnchor();

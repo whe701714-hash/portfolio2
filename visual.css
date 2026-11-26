@@ -97,3 +97,41 @@ html.intro-pending .signature,body.is-intro .signature{translate:0 10px;rotate:3
 .work.in-view .titlebar{animation-delay:40ms}.work.in-view .folders{animation-delay:110ms}.work.in-view .window-content{animation-delay:180ms}
 .statement span{background:linear-gradient(#e2edff,#e2edff) no-repeat left center/0% 100%;transition:background-size 600ms var(--ease)}
 .about.in-view .statement span{background-size:100% 100%}
+
+/* Zi Yue personal brand opening. The overlay uses the same page background. */
+.brand-intro{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;overflow:hidden;background:var(--paper);color:var(--ink);opacity:0;visibility:hidden;pointer-events:none;transition:opacity var(--intro-exit-duration,380ms) var(--ease),background-color var(--intro-exit-duration,380ms) var(--ease),visibility 0s linear var(--intro-exit-duration,380ms)}
+html.brand-intro-pending .brand-intro,body.brand-intro-active .brand-intro{opacity:1;visibility:visible;pointer-events:auto;transition:none}
+.brand-intro__content{display:flex;flex-direction:column;align-items:center;gap:19px;transform-origin:center;transition:transform var(--intro-exit-duration,380ms) var(--ease),opacity var(--intro-exit-duration,380ms) var(--ease)}
+.brand-intro__avatar-motion{width:clamp(112px,17vw,148px);aspect-ratio:1;opacity:0;transform:translateY(40px) scale(.4) rotate(-8deg);filter:drop-shadow(0 8px 18px #34487515)}
+.brand-intro__avatar-float{width:100%;height:100%;animation:brand-avatar-float 4.8s ease-in-out 680ms infinite}
+.brand-intro__avatar{display:block;width:100%;height:100%;object-fit:cover;border-radius:50%}
+.brand-intro__name{display:flex;align-items:baseline;margin:4px 0 0;color:#4055a1;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-size:clamp(48px,8vw,82px);font-weight:760;line-height:1.02;letter-spacing:-.065em}
+.brand-intro__letter{display:inline-block;opacity:0;transform:translateY(45px) scale(.65) rotate(12deg);transform-origin:50% 90%;will-change:transform,opacity}
+.brand-intro__space{display:inline-block;width:.28em}
+.brand-intro__role{margin:0;color:#60708f;font:600 12px/1.4 var(--mono);letter-spacing:.24em;opacity:0;transform:translateY(12px)}
+.brand-intro__skip{position:absolute;right:clamp(20px,4vw,52px);bottom:clamp(20px,4vh,36px);border:0;background:transparent;color:#737f95;padding:9px 4px;font:11px var(--mono);letter-spacing:.12em;opacity:.72;transition:opacity 180ms var(--ease)}
+.brand-intro__skip:hover,.brand-intro__skip:focus-visible{opacity:1}
+body.brand-intro-play .brand-intro__avatar-motion{animation:brand-avatar-in var(--intro-avatar-duration,600ms) cubic-bezier(.2,.9,.28,1.12) var(--intro-avatar-delay,80ms) both}
+body.brand-intro-play .brand-intro__letter{animation:brand-letter-in var(--intro-letter-duration,440ms) cubic-bezier(.18,.86,.25,1.18) both}
+body.brand-intro-play .brand-intro__role{animation:brand-role-in var(--intro-subtitle-duration,330ms) var(--ease) var(--intro-subtitle-delay,1370ms) both}
+@keyframes brand-avatar-in{0%{opacity:0;transform:translateY(40px) scale(.4) rotate(-8deg)}68%{opacity:1;transform:translateY(-4px) scale(1.06) rotate(2deg)}86%{opacity:1;transform:translateY(1px) scale(.985) rotate(-.7deg)}100%{opacity:1;transform:translateY(0) scale(1) rotate(0)}}
+@keyframes brand-avatar-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@keyframes brand-letter-in{0%{opacity:0;transform:translateY(45px) scale(.65) rotate(12deg);color:#f0a7c1}68%{opacity:1;transform:translateY(-4px) scale(1.06) rotate(-2deg);color:#5269b5}86%{opacity:1;transform:translateY(1px) scale(.99) rotate(.5deg);color:#4055a1}100%{opacity:1;transform:translateY(0) scale(1) rotate(0);color:#4055a1}}
+@keyframes brand-role-in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+body.brand-intro-exiting .brand-intro{background-color:transparent;opacity:0;pointer-events:none;transition:background-color var(--intro-exit-duration,380ms) var(--ease),opacity var(--intro-exit-duration,380ms) var(--ease),visibility 0s linear var(--intro-exit-duration,380ms)}
+body.brand-intro-exiting .brand-intro__content{opacity:0;transform:translateY(-18px) scale(.94)}
+body.brand-intro-exiting .brand-intro__skip{opacity:0;pointer-events:none}
+body.brand-intro-hidden .brand-intro{visibility:hidden}
+body.is-intro .bar,body.is-intro .section-label{transition-delay:0ms}
+.intro-ready .bar{transition-delay:var(--intro-nav,600ms)}
+.intro-ready .section-label{transition-delay:var(--intro-section-label,0ms)}
+.intro-ready .prop{transition-duration:var(--intro-duration,430ms)}
+.intro-ready .identity{transition-delay:var(--intro-identity,0ms)}
+.intro-ready .ticket{transition-delay:var(--intro-ticket,75ms)}
+.intro-ready .record{transition-delay:var(--intro-record,135ms)}
+.intro-ready .folder{transition-delay:var(--intro-folder,195ms)}
+.intro-ready .pixel{transition-delay:var(--intro-pixel,250ms)}
+.intro-ready .terminal{transition-delay:var(--intro-terminal,300ms)}
+.intro-ready .signature{transition:clip-path var(--intro-signature-duration,320ms) var(--intro-signature,320ms) var(--ease),opacity var(--intro-signature-duration,320ms) var(--intro-signature,320ms) var(--ease),translate var(--intro-signature-duration,320ms) var(--intro-signature,320ms) var(--ease),rotate var(--intro-signature-duration,320ms) var(--intro-signature,320ms) var(--ease);clip-path:inset(0);opacity:1;translate:0 0;rotate:0deg}
+@media(max-width:640px){.brand-intro__content{gap:16px}.brand-intro__avatar-motion{width:clamp(104px,31vw,128px)}.brand-intro__name{font-size:clamp(48px,13vw,64px)}.brand-intro__role{font-size:10px;letter-spacing:.19em}}
+@media(prefers-reduced-motion:reduce){.brand-intro__avatar-float{animation:none}.brand-intro__avatar-motion,.brand-intro__letter,.brand-intro__role{animation:none!important;opacity:1;transform:none}.brand-intro-exiting .brand-intro__content{transform:none}.intro-ready .bar,.intro-ready .prop,.intro-ready .signature{transition:none!important}}
