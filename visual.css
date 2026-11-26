@@ -195,3 +195,19 @@ body.is-intro .terminal>*{opacity:0}
 .home-entry-running .folder-icon{animation:folder-gentle-settle 190ms cubic-bezier(.4,0,.2,1) calc(var(--intro-folder,450ms) + var(--intro-folder-duration,950ms) - 190ms) both}
 @keyframes folder-gentle-settle{0%,100%{scale:1}42%{scale:1.02}76%{scale:.995}}
 @media(prefers-reduced-motion:reduce){.home-entry-running .prop,.home-entry-running .signature,.home-entry-running .record .disc{transition:none!important}.home-entry-running .folder-icon{animation:none!important}.home-entry-running .terminal>*{transition:none!important}}
+
+/* Wide desktop canvas: spread the existing collage across the first viewport. */
+@media(min-width:641px){
+  .bar{padding:clamp(10px,1.4vh,15px) 0}
+  .hero.wrap{width:min(1500px,calc(100% - 48px));padding-top:clamp(4px,1vh,10px)}
+  .hero>.section-label{margin:0 0 4px}
+  .desk{width:100%;max-width:none;height:clamp(560px,calc(100vh - 150px),880px);height:clamp(560px,calc(100svh - 150px),880px);margin:0;overflow:visible}
+  .identity{left:6%;top:8%;width:31%;max-width:310px}
+  .ticket{left:34%;top:5%;width:34%}
+  .record{left:42%;top:32%;width:20%}
+  .folder{left:81%;top:7%;width:14%}
+  .pixel{left:2%;top:70%;width:8.5%}
+  .terminal{left:70%;top:34%;width:28%}
+  .signature{left:31%;top:75%}
+  .reset-layout{right:0;bottom:8px}
+}
