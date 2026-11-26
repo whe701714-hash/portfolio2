@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="交互设计、UI/UX、数字产品与创意探索作品集。">
 <title>设计手记 · 交互设计作品集</title>
+<script>try{if((!location.hash||location.hash==='#top')&&!sessionStorage.getItem('design-notes-intro')&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('intro-pending')}catch{}</script>
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="visual.css">
 <script type="module" src="app.js"></script>
@@ -18,19 +19,20 @@
 <section class="hero wrap" aria-labelledby="title">
 <div class="section-label">INTERACTION DESIGN PORTFOLIO</div>
 <div class="desk">
-<article class="identity prop"><span>DESIGNER PASS</span><h1 id="title">交互设计<br>作品集</h1><p>Interaction Designer · 姓名待替换</p><div class="portrait art" data-art="0" role="img" aria-label="示例设计师肖像"></div></article>
+<article class="identity prop draggable" data-object="identity" tabindex="0" aria-label="查看设计师简介" aria-pressed="false"><div class="identity-card"><div class="identity-face identity-front"><span>DESIGNER PASS</span><h1 id="title">交互设计<br>作品集</h1><p>Interaction Designer · 姓名待替换</p><div class="portrait art" data-art="0" role="img" aria-label="示例设计师肖像"></div></div><div class="identity-face identity-back"><span>ABOUT ME</span><strong>Interaction<br>Designer</strong><p>UI/UX · 用户研究<br>交互原型 · 数字体验</p><button type="button" class="about-link">认识我</button></div></div></article>
 <button class="ticket prop" type="button" data-object="ticket" aria-expanded="false"><span>研究 · 界面 · 体验</span><strong>DESIGN NOTES</strong><span>工作室记录 / STUDIO PASS</span></button>
-<button class="record prop" type="button" data-object="record" aria-expanded="false"><span class="disc"></span><span>工作室歌单</span></button>
+<button class="record prop draggable" type="button" data-object="record" aria-expanded="false" aria-label="切换歌单演示播放"><span class="record-sleeve"><span class="disc"></span></span><span class="record-status">工作室歌单 · 演示</span></button>
 <div class="signature prop" aria-label="签名占位">Design Notes<small>从问题到体验</small></div>
-<button type="button" class="folder prop" aria-label="打开精选作品"><span class="folder-icon"></span><span>Projects</span></button>
-<div class="pixel prop" aria-hidden="true"></div>
-<div class="terminal prop"><div>studio — notes</div><p><b>></b> whoami<br>交互设计师 / Interaction Designer</p><p><b>></b> interests<br>UI/UX · 数字体验 · 原型</p></div>
+<button type="button" class="folder prop draggable" aria-label="打开精选作品"><span class="folder-icon"><span class="folder-paper"></span></span><span>Projects</span></button>
+<button class="pixel prop draggable" type="button" aria-label="切换像素图案" aria-pressed="false"></button>
+<section class="terminal prop draggable" aria-label="交互式终端"><div>studio — notes</div><div class="terminal-output" aria-live="polite"></div><form class="terminal-form"><label><b>></b><span class="terminal-prompt">_</span><input aria-label="输入终端命令" autocomplete="off" spellcheck="false"></label></form></section>
 <output class="desk-note" aria-live="polite" hidden></output>
+<button class="reset-layout" type="button">Reset layout</button>
 </div>
 </section>
 <section class="about wrap" id="about" aria-labelledby="about-title">
 <header class="section-head"><span>ABOUT</span><h2 id="about-title">关于我</h2></header>
-<div class="about-paper"><div class="memo"><h3>把复杂的问题变成自然的体验。</h3><p>我关注人与数字产品之间的关系，通过观察、研究与设计，让每一步交互更直观，也更有人情味。</p><small>个人介绍示例 · 待替换</small></div><div class="statement"><p>我从用户的目标和使用情境出发，用<span>清晰的交互逻辑</span>连接信息架构、界面与反馈。</p><p class="skills">用户研究 / 交互设计 / UI设计 / 信息架构 / 原型设计 / 可用性测试</p><p class="interests">也通过界面动效、图标和创意编程探索数字体验的更多可能。</p></div></div>
+<div class="about-paper"><button class="memo" type="button" aria-pressed="false"><span class="memo-front"><h3>把复杂的问题变成自然的体验。</h3><p>我关注人与数字产品之间的关系，通过观察、研究与设计，让每一步交互更直观，也更有人情味。</p><small>个人介绍示例 · 待替换</small></span><span class="memo-back"><strong>设计关键词</strong><p>好奇、清晰、关怀、测试、迭代。</p></span></button><div class="statement"><p>我从用户的目标和使用情境出发，用<span>清晰的交互逻辑</span>连接信息架构、界面与反馈。</p><p class="skills">用户研究 / 交互设计 / UI设计 / 信息架构 / 原型设计 / 可用性测试</p><p class="interests">也通过界面动效、图标和创意编程探索数字体验的更多可能。</p></div></div>
 </section>
 <section class="work wrap" id="work" aria-labelledby="work-title">
 <header class="section-head"><span>WORK</span><h2 id="work-title">精选作品</h2></header>
@@ -41,11 +43,11 @@
 </section>
 <section class="play wrap" id="playground" aria-labelledby="play-title">
 <header class="section-head"><span>PLAYGROUND</span><h2 id="play-title">创意实验</h2></header>
-<div class="pinboard" aria-label="实验图片拼贴"></div>
+<div class="pinboard" aria-label="实验图片拼贴"></div><button class="reset-playground" type="button">Reset layout</button>
 </section>
 </main>
 <footer class="wrap footer"><span>设计手记 · 交互设计作品集</span><a href="#top">返回顶部</a></footer>
-<dialog id="viewer" aria-labelledby="viewer-title"><div class="viewer-bar"><button type="button" class="close">返回</button><span>设计手记 / 工作台</span></div><div id="viewer-content"></div></dialog>
+<dialog id="viewer" aria-labelledby="viewer-title"><div class="viewer-bar"><button type="button" class="close">返回</button><span>设计手记 / 工作台</span><div class="viewer-navigation"><button type="button" class="previous" aria-label="上一张">上一张</button><button type="button" class="next" aria-label="下一张">下一张</button></div></div><div id="viewer-content"></div></dialog>
 </body>
 </html>
 
