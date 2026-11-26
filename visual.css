@@ -170,3 +170,28 @@ body.brand-intro-exiting .brand-intro__decor>span{translate:0 0;scale:1;opacity:
 .intro-ready .signature{transition:clip-path var(--intro-home-duration,700ms) var(--intro-signature,220ms) var(--ease),opacity var(--intro-home-duration,700ms) var(--intro-signature,220ms) var(--ease),translate var(--intro-home-duration,700ms) var(--intro-signature,220ms) var(--ease),rotate var(--intro-home-duration,700ms) var(--intro-signature,220ms) var(--ease);clip-path:inset(0);opacity:1;translate:0 0;rotate:0deg}
 body.brand-intro-hidden .brand-intro{visibility:hidden;pointer-events:none}
 @media(prefers-reduced-motion:reduce){.brand-intro,body.brand-intro-exiting .brand-intro{transform:none;transition:none!important}.intro-ready .prop{transition:none!important}}
+
+/* Slow, staggered desk reveal. These rules only run while the home is entering. */
+html.intro-pending .identity,body.is-intro .identity{translate:-50px 60px;rotate:-4deg;scale:.97}
+html.intro-pending .ticket,body.is-intro .ticket{translate:40px -50px;rotate:4deg;scale:.985}
+html.intro-pending .record,body.is-intro .record{translate:0 40px;rotate:-3deg;scale:.97}
+html.intro-pending .folder,body.is-intro .folder{translate:40px 0;rotate:3deg;scale:.985}
+html.intro-pending .pixel,body.is-intro .pixel{translate:-35px 35px;rotate:-3deg;scale:.94}
+html.intro-pending .terminal,body.is-intro .terminal{translate:35px 30px;rotate:2deg;scale:.98}
+html.intro-pending .signature,body.is-intro .signature{translate:0 14px;rotate:2deg;scale:.98;clip-path:inset(0 100% 0 0);opacity:0}
+html.intro-pending .record .disc,body.is-intro .record .disc{rotate:-8deg}
+body.is-intro .terminal>*{opacity:0}
+.home-entry-running .identity{--home-entry-delay:var(--intro-identity,0ms);--home-entry-duration:var(--intro-identity-duration,1000ms)}
+.home-entry-running .ticket{--home-entry-delay:var(--intro-ticket,150ms);--home-entry-duration:var(--intro-ticket-duration,1000ms)}
+.home-entry-running .record{--home-entry-delay:var(--intro-record,300ms);--home-entry-duration:var(--intro-record-duration,1000ms)}
+.home-entry-running .folder{--home-entry-delay:var(--intro-folder,450ms);--home-entry-duration:var(--intro-folder-duration,950ms)}
+.home-entry-running .pixel{--home-entry-delay:var(--intro-pixel,600ms);--home-entry-duration:var(--intro-pixel-duration,900ms)}
+.home-entry-running .terminal{--home-entry-delay:var(--intro-terminal,750ms);--home-entry-duration:var(--intro-terminal-duration,1000ms)}
+.home-entry-running .signature{--home-entry-delay:var(--intro-signature,900ms);--home-entry-duration:var(--intro-signature-duration,900ms)}
+.home-entry-running .prop{transition:opacity var(--home-entry-duration) cubic-bezier(.4,0,.2,1) var(--home-entry-delay),translate var(--home-entry-duration) cubic-bezier(.4,0,.2,1) var(--home-entry-delay),rotate var(--home-entry-duration) cubic-bezier(.4,0,.2,1) var(--home-entry-delay),scale var(--home-entry-duration) cubic-bezier(.4,0,.2,1) var(--home-entry-delay),transform var(--motion) var(--ease) 0ms,box-shadow var(--quick) var(--ease) 0ms;opacity:1;translate:0 0;rotate:0deg;scale:1}
+.home-entry-running .signature{transition:clip-path var(--home-entry-duration) cubic-bezier(.4,0,.2,1) var(--home-entry-delay),opacity var(--home-entry-duration) cubic-bezier(.4,0,.2,1) var(--home-entry-delay),translate var(--home-entry-duration) cubic-bezier(.4,0,.2,1) var(--home-entry-delay),rotate var(--home-entry-duration) cubic-bezier(.4,0,.2,1) var(--home-entry-delay),scale var(--home-entry-duration) cubic-bezier(.4,0,.2,1) var(--home-entry-delay),transform var(--motion) var(--ease) 0ms;clip-path:inset(0);opacity:1;translate:0 0;rotate:0deg;scale:1}
+.home-entry-running .record .disc{transition:rotate var(--intro-record-duration,1000ms) cubic-bezier(.4,0,.2,1) var(--intro-record,300ms);rotate:0deg}
+.home-entry-running .terminal>*{opacity:1;transition:opacity 300ms var(--ease) calc(var(--intro-terminal,750ms) + 550ms)}
+.home-entry-running .folder-icon{animation:folder-gentle-settle 190ms cubic-bezier(.4,0,.2,1) calc(var(--intro-folder,450ms) + var(--intro-folder-duration,950ms) - 190ms) both}
+@keyframes folder-gentle-settle{0%,100%{scale:1}42%{scale:1.02}76%{scale:.995}}
+@media(prefers-reduced-motion:reduce){.home-entry-running .prop,.home-entry-running .signature,.home-entry-running .record .disc{transition:none!important}.home-entry-running .folder-icon{animation:none!important}.home-entry-running .terminal>*{transition:none!important}}

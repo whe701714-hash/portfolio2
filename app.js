@@ -11,7 +11,7 @@ const viewer = select('#viewer');
 const note = select('.desk-note');
 const desk = select('.desk');
 const pinboard = select('.pinboard');
-const introTiming = {avatarDelay: 0, avatarDuration: 1300, lettersDelay: 80, letterDuration: 800, letterStagger: 165, subtitleDelay: 900, subtitleDuration: 450, hold: 600, transitionStart: 2100, transition: 700, settle: 600, homeDuration: 700, identity: 0, ticket: 70, record: 120, folder: 170, pixel: 210, terminal: 250, signature: 220, nav: 220, sectionLabel: 300, total: 3400, failSafe: 4200};
+const introTiming = {avatarDelay: 0, avatarDuration: 1300, lettersDelay: 80, letterDuration: 800, letterStagger: 165, subtitleDelay: 900, subtitleDuration: 450, hold: 600, transitionStart: 2100, transition: 700, settle: 600, homeDuration: 1800, identity: 0, identityDuration: 1000, ticket: 150, ticketDuration: 1000, record: 300, recordDuration: 1000, folder: 450, folderDuration: 950, pixel: 600, pixelDuration: 900, terminal: 750, terminalDuration: 1000, signature: 900, signatureDuration: 900, nav: 220, sectionLabel: 300, total: 3400, failSafe: 4200};
 let introTimers = [];
 let homeIntroStarted = false;
 let introCompleted = false;
@@ -67,9 +67,9 @@ function startHomeIntro() {
   if (homeIntroStarted) return;
   homeIntroStarted = true;
   document.documentElement.classList.remove('brand-intro-pending', 'intro-pending');
-  document.body.classList.add('is-intro', 'intro-ready');
+  document.body.classList.add('is-intro', 'intro-ready', 'home-entry-running');
   window.dispatchEvent(new Event('brandintroend'));
-  introTimers.push(setTimeout(() => document.body.classList.remove('is-intro'), introTiming.homeDuration + 250));
+  setTimeout(() => document.body.classList.remove('is-intro', 'intro-ready', 'home-entry-running'), introTiming.homeDuration);
 }
 
 function finishBrandIntro() {
@@ -94,7 +94,7 @@ function animateIntro() {
   if (!shouldAnimate) {
     document.documentElement.classList.remove('brand-intro-pending', 'intro-pending');
     select('.brand-intro').setAttribute('aria-hidden', 'true');
-    document.body.classList.add('intro-ready');
+    document.body.classList.remove('intro-ready', 'is-intro', 'home-entry-running');
     return;
   }
   select('.brand-intro').setAttribute('aria-hidden', 'false');
@@ -306,8 +306,9 @@ function initTerminal() {
     if (started) return;
     started = true;
     const outputIntro = () => typeTerminal(`whoami\n${profile.role} / ${profile.name}\n\ninterests\nUI/UX · 数字体验 · 原型`, 12);
-    if (document.body.classList.contains('brand-intro-active')) window.addEventListener('brandintroend', outputIntro, {once: true});
-    else if (document.body.classList.contains('is-intro')) setTimeout(outputIntro, introTiming.terminal + 300);
+    const outputAfterTerminalSettles = () => setTimeout(outputIntro, introTiming.terminal + introTiming.terminalDuration);
+    if (document.body.classList.contains('brand-intro-active')) window.addEventListener('brandintroend', outputAfterTerminalSettles, {once: true});
+    else if (document.body.classList.contains('home-entry-running')) outputAfterTerminalSettles();
     else outputIntro();
   };
   new IntersectionObserver(entries => entries.forEach(entry => entry.isIntersecting && start()), {threshold: .5}).observe(terminal);
