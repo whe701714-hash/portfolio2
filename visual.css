@@ -213,7 +213,7 @@ body.is-intro .terminal>*{opacity:0}
 }
 
 /* Vector instant camera replaces only the former identity pass. */
-.identity.camera{width:clamp(240px,24vw,300px);height:390px;max-width:none;padding:0;overflow:visible;background:transparent;perspective:none}
+.identity.camera{width:clamp(240px,24vw,300px);height:500px;max-width:none;padding:0;overflow:visible;background:transparent;perspective:none}
 .camera-body{position:absolute;inset:0 auto auto 0;width:100%;height:190px;border-radius:24px 24px 20px 20px;background:#b8d5fa;box-shadow:0 13px 24px #31436c16;z-index:3;transition:translate 300ms var(--ease)}
 .camera-body:before{content:"";position:absolute;left:9%;right:9%;top:14px;height:17px;border-radius:9px;background:#d8e8ff}
 .camera-top{position:absolute;left:12%;right:12%;top:37px;height:34px;display:flex;align-items:center;gap:14px}
@@ -224,12 +224,14 @@ body.is-intro .terminal>*{opacity:0}
 .camera-lens i{width:36px;height:36px;border-radius:50%;background:#f5b8cc;box-shadow:0 0 0 8px #626db1}
 .camera-mark{position:absolute;right:12%;bottom:15px;font:10px var(--mono);color:#4055a1}
 .camera-exit{position:absolute;left:34%;bottom:-5px;width:32%;height:14px;border-radius:0 0 7px 7px;background:#fff9e9;z-index:5}
-.polaroid{position:absolute;z-index:2;left:18%;top:115px;width:64%;height:250px;padding:10px 10px 8px;border:0;border-radius:3px;background:#fff9e9;box-shadow:0 9px 20px #31436c18;display:flex;flex-direction:column;align-items:stretch;opacity:0;translate:0 -122px;rotate:2deg;clip-path:inset(0 0 100% 0);transition:opacity 220ms ease,translate 1300ms cubic-bezier(.32,.02,.2,1),rotate 700ms cubic-bezier(.2,.8,.2,1),clip-path 1100ms ease;cursor:pointer}
+.polaroid{position:absolute;z-index:2;left:18%;top:115px;width:64%;height:250px;padding:10px 10px 8px;border:0;border-radius:3px;background:#fff9e9;box-shadow:0 9px 20px #31436c18;display:flex;flex-direction:column;align-items:stretch;opacity:0;translate:0 -122px;rotate:2deg;clip-path:inset(0 0 100% 0);transition:opacity 220ms ease,translate 1600ms cubic-bezier(.36,.06,.2,1),rotate 360ms cubic-bezier(.2,.8,.2,1),clip-path 1550ms cubic-bezier(.4,0,.2,1);cursor:pointer}
 .polaroid-photo{height:174px;background:#dbe8fb;overflow:hidden;filter:grayscale(.7) contrast(.65) blur(2px);transition:filter 1100ms ease 240ms}
 .polaroid-photo img{display:block;width:100%;height:100%;object-fit:cover}
 .polaroid-sign{padding-top:5px;text-align:center;color:#4055a1;font:italic 23px/1.1 "Segoe Print","Bradley Hand",cursive}
 .polaroid-role{text-align:center;color:#6d7a95;font:8px/1.4 var(--mono);letter-spacing:.11em}
-.identity.photo-ready .polaroid{opacity:1;translate:0 0;rotate:-3deg;clip-path:inset(0)}
+.identity.shooting .polaroid{opacity:1;translate:0 129px;rotate:2deg;clip-path:inset(0)}
+.identity.photo-free .polaroid{z-index:4}
+.identity.photo-ready .polaroid{opacity:1;translate:0 129px;rotate:-4deg;clip-path:inset(0)}
 .identity.photo-ready .polaroid-photo{filter:none}
 .identity:is(:hover,:focus-within) .camera-body{translate:0 -5px}
 .identity:is(:hover,:focus-within) .camera-shutter{filter:brightness(1.08);transform:translateY(2px)}
@@ -239,5 +241,6 @@ body.is-intro .terminal>*{opacity:0}
 .identity.shooting .polaroid{opacity:1;translate:0 0;clip-path:inset(0)}
 @keyframes camera-shake{0%,100%{transform:rotate(0)}35%{transform:rotate(-1deg) translateY(1px)}70%{transform:rotate(.6deg)}}
 .identity.camera:focus-visible{outline:0}.identity.camera .polaroid:focus-visible,.identity.camera .camera-shutter:focus-visible{outline:2px solid #4055a1;outline-offset:3px}
-@media(max-width:640px){.identity.camera{width:250px;height:380px}.camera-body{height:170px}.camera-lens{top:70px;width:82px;height:82px}.polaroid{top:102px;height:238px}.polaroid-photo{height:164px}}
+@media(min-width:641px){.identity.camera{top:5%}.pixel{width:6.5%;top:72%}}
+@media(max-width:640px){.identity.camera{width:250px;height:450px}.camera-body{height:170px}.camera-lens{top:70px;width:82px;height:82px}.polaroid{top:102px;height:238px}.polaroid-photo{height:164px}.identity.shooting .polaroid{translate:0 88px}.identity.photo-ready .polaroid{translate:0 94px}}
 @media(prefers-reduced-motion:reduce){.polaroid,.polaroid-photo,.camera-body,.camera-shutter{transition:none!important}.identity.camera-shooting .camera-body{animation:none}.identity.photo-ready .polaroid{clip-path:none;opacity:1;translate:0 0}}
