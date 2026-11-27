@@ -52,9 +52,6 @@ function renderProfile() {
   });
   nameNode.setAttribute('aria-label', name);
   select('.brand-intro__role').textContent = role.toUpperCase();
-  select('.identity-personal').textContent = `${name} · ${role}`;
-  select('.identity-name').textContent = name;
-  select('.identity-role').textContent = `${role} · UI/UX · 数字体验`;
   select('.profile-bio').textContent = profile.bio || '个人介绍暂缺，后续更新。';
   selectAll('[data-profile-avatar]').forEach(image => {
     image.src = profile.avatar;
@@ -180,7 +177,7 @@ function attachDrag(element, boundsElement, onTap) {
   };
   element.addEventListener('pointerdown', event => {
     if (event.button !== undefined && event.button !== 0) return;
-    if (event.target.closest('input, button:not(.print):not(.folder):not(.record):not(.ticket):not(.pixel)')) return;
+    if (event.target.closest('input, button:not(.print):not(.folder):not(.record):not(.ticket):not(.pixel):not(.polaroid)')) return;
     start = {x: event.clientX, y: event.clientY, offset: {...offset}};
     moved = false;
     element.style.zIndex = String(++nextObjectZ);
@@ -246,10 +243,7 @@ function initHeroInteractions() {
   const pixel = select('.pixel');
   const terminal = select('.terminal');
   const resetters = [
-    attachDrag(identity, desk, () => {
-      const flipped = identity.classList.toggle('is-flipped');
-      identity.setAttribute('aria-pressed', String(flipped));
-    }),
+    attachDrag(identity, desk),
     attachDrag(ticket, desk, () => toggleNote(ticket, '设计手记 · 通过研究、原型与界面细节，把复杂问题变成清晰体验。')),
     attachDrag(record, desk, () => {
       const playing = record.toggleAttribute('data-playing');
@@ -273,11 +267,25 @@ function initHeroInteractions() {
     }),
     attachDrag(terminal, desk)
   ];
-  select('.about-link').addEventListener('click', event => {
-    event.stopPropagation();
-    scrollToSection('#about');
-  });
   select('.reset-layout').addEventListener('click', () => resetters.forEach(reset => reset()));
+  const photo = select('.polaroid');
+  let shooting = false;
+  const shoot = () => {
+    if (shooting) return;
+    shooting = true;
+    identity.classList.remove('photo-ready','shooting');
+    identity.classList.add('camera-shooting');
+    setTimeout(() => identity.classList.add('shooting'), 190);
+    setTimeout(() => identity.classList.remove('camera-shooting'), 350);
+    setTimeout(() => identity.classList.add('photo-ready'), 1350);
+    setTimeout(() => { identity.classList.remove('shooting'); shooting = false; }, 1750);
+  };
+  select('.camera-shutter').addEventListener('click', event => { event.stopPropagation(); shoot(); });
+  photo.addEventListener('click', event => { event.stopPropagation(); scrollToSection('#about'); });
+  identity.addEventListener('keydown', event => { if(event.key==='Enter'||event.key===' '){event.preventDefault();shoot();} });
+  if(reducedMotion) identity.classList.add('photo-ready');
+  else if(document.body.classList.contains('brand-intro-active')) window.addEventListener('brandintroend', () => setTimeout(shoot, 950), {once:true});
+  else setTimeout(shoot, 1050);
   select('.memo').addEventListener('click', () => {
     const memo = select('.memo');
     const flipped = memo.classList.toggle('is-flipped');
