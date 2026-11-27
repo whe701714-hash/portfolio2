@@ -273,12 +273,13 @@ function initHeroInteractions() {
   const shoot = () => {
     if (shooting) return;
     shooting = true;
-    identity.classList.remove('photo-ready','shooting');
+    identity.classList.remove('photo-ready','shooting','photo-free');
     identity.classList.add('camera-shooting');
-    setTimeout(() => identity.classList.add('shooting'), 190);
     setTimeout(() => identity.classList.remove('camera-shooting'), 350);
-    setTimeout(() => identity.classList.add('photo-ready'), 1350);
-    setTimeout(() => { identity.classList.remove('shooting'); shooting = false; }, 1750);
+    setTimeout(() => identity.classList.add('shooting'), 190);
+    setTimeout(() => identity.classList.add('photo-free'), 1790);
+    setTimeout(() => identity.classList.add('photo-ready'), 2130);
+    setTimeout(() => { identity.classList.remove('shooting'); shooting = false; }, 2400);
   };
   select('.camera-shutter').addEventListener('click', event => { event.stopPropagation(); shoot(); });
   photo.addEventListener('click', event => { event.stopPropagation(); scrollToSection('#about'); });
